@@ -1,0 +1,16 @@
+{
+    "name": "dami-libraries/yii2-api-module",
+    "description": "API Module for Yii2 framework.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jakub Hrášek",
+            "email": "hrasek.j@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.2"
+    }
+}
