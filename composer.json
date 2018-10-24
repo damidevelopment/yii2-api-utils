@@ -6,11 +6,16 @@
     "authors": [
         {
             "name": "Jakub Hrášek",
-            "email": "hrasek.j@gmail.com"
+            "email": "hrasek@damidev.com"
         }
     ],
     "minimum-stability": "stable",
     "require": {
         "php": ">=7.2"
+    },
+    "autoload":{
+        "psr-4":{
+            "damidev\\api\\": "src\\"
+        }
     }
 }
