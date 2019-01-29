@@ -53,7 +53,7 @@ abstract class RestController extends \yii\web\Controller
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
                 ],
-                'languages' => Yii::$app->params['acceptLanguages'] ?? ['en-US', 'cs-CZ']
+                'languages' => $this->acceptLanguages()
             ],
             'verbFilter' => [
                 'class' => VerbFilter::class,
@@ -84,6 +84,16 @@ abstract class RestController extends \yii\web\Controller
     protected function verbs()
     {
         return [];
+    }
+
+    /**
+     * List of acceptable languages for response
+     * @return array
+     */
+    protected function acceptLanguages()
+    {
+        $params = Yii::$app->params['acceptLanguages'] ?? [Yii::$app->sourceLanguage];
+        return array_unique(array_merge(['en-US', 'cs-CZ'], $params));
     }
 
     /**

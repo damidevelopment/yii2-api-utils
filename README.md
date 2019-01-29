@@ -4,16 +4,15 @@
 
 ContentNegotiator works with `Accept-Language` header. If you need multilangual API, you need to add `Accept-Language` header to request and define acceptLanguages array in app params. See example bellow.
 
-``` config/params.php
-
+```
+// config/params.php
 return [
     'acceptLanguages' => [
         'en' => 'en-GB', // accept en as en-GB
+        'cs-CZ',         // accept cs or cs-CZ as cs-CZ
         'de',            // accept de only (should not be used, better use de => de-DE)
-        'cs-CZ'          // accept cs or cs-CZ as cs-CZ
     ]
 ];
-
 ```
 
 See [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) to find language code.
