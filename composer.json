@@ -15,7 +15,7 @@
     },
     "autoload":{
         "psr-4":{
-            "damidev\\api\\": "src\\"
+            "damidev\\api\\": "src/"
         }
     }
 }
