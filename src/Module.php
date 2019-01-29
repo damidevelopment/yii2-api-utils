@@ -9,13 +9,11 @@ use yii\helpers\StringHelper;
 use yii\helpers\Json;
 use yii\web\Response;
 
-
 /**
- * @Author: Jakub Hrášek
+ * @author Jakub Hrášek
  */
 class Module extends \yii\base\Module implements BootstrapInterface
 {
-
     /**
      * @var string the class name of the [[identity]] object.
      */
@@ -64,5 +62,4 @@ class Module extends \yii\base\Module implements BootstrapInterface
             });
         });
     }
-
 }

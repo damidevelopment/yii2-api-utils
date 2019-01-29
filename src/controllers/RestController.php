@@ -3,14 +3,12 @@
 namespace damidev\api\controllers;
 
 use Yii;
-use yii\filters\auth\CompositeAuth;
+use yii\filters\auth\HttpHeaderAuth;
 use yii\filters\ContentNegotiator;
 use yii\filters\VerbFilter;
 use yii\filters\RateLimiter;
 use yii\web\Response;
-use yii\helpers\FileHelper;
 use damidev\api\Serializer;
-
 
 /**
  * RestController is the base class for RESTful API controller classes.

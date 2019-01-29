@@ -2,9 +2,8 @@
 
 namespace damidev\api;
 
-
 /**
- * @Author: Jakub Hrášek
+ * @author Jakub Hrášek
  */
 class Serializer extends \yii\rest\Serializer
 {
@@ -24,10 +23,10 @@ class Serializer extends \yii\rest\Serializer
         $this->response->setStatusCode(422, 'Data Validation Failed');
 
         $result = [];
-        foreach ($model->getErrors() as $name => $message) {
+        foreach ($model->getErrors() as $name => $messages) {
             $result[] = [
                 'field' => $name,
-                'messages' => $message,
+                'messages' => $messages,
             ];
         }
 
