@@ -72,7 +72,8 @@ class ApiModule extends Module
             $app->getResponse()->on(Response::EVENT_AFTER_SEND, function ($event) {
                 /** @var Response $response */
                 $response = $event->sender;
-                Yii::trace(Json::encode($response->data, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE), 'API response payload');
+                $data = \yii\helpers\Json::encode($response->data, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+                Yii::getLogger()->log($data, \yii\log\Logger::LEVEL_TRACE, 'API response payload');
             });
         });
 
