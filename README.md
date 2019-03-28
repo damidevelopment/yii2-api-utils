@@ -1,5 +1,41 @@
 # Yii2 API module
 
+## Installation
+
+To be able to install this module, first you have to modify your `composer.json` file like this.
+
+```
+{
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "gogs@gogs.damidev.com:dami-libraries/yii2-api-module.git"
+        }
+    ]
+}
+```
+
+You can use https url version when you don't have ssh key in gogs.
+
+```
+{
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://gogs.damidev.com/dami-libraries/yii2-api-module.git"
+        }
+    ]
+}
+```
+
+After this you can call composer require.
+
+```
+composer require dami-libraries/yii2-api-module
+```
+
 ## Authentication
 
 As default every request for logged user must contain `Access-Token` header. You can configure this behavior thru `damidev\api\controllers\RestController::$authenticator` property.
