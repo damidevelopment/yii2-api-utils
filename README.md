@@ -1,4 +1,8 @@
-# yii-api-module
+# Yii2 API module
+
+## Authentication
+
+As default every request for logged user must contain `Access-Token` header. You can configure this behavior thru `damidev\api\controllers\RestController::$authenticator` property.
 
 ## Multilangual API output
 

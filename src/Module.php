@@ -10,19 +10,27 @@ use yii\base\BootstrapInterface;
 class Module extends \yii\base\Module implements BootstrapInterface
 {
     /**
+     * @var array
+     */
+    private $rules = [];
+
+
+    /**
      * @inheritdoc
      */
     public function bootstrap($app)
     {
-        $app->getUrlManager()->addRules($this->buildUrlRules(), false);
+        $app->getUrlManager()->addRules($this->rules, false);
     }
 
     /**
      * Returns list of rules for [[\yii\web\UrlManager]]
-     * @return array
+     * @param  array $rules
+     * @return self
      */
-    protected function buildUrlRules(): array
+    public function setUrlRules(array $rules): self
     {
-        return [];
+        $this->rules = $rules;
+        return $this;
     }
 }
