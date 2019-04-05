@@ -4,7 +4,6 @@ namespace damidev\api;
 
 use Yii;
 use yii\base\Application;
-use yii\base\BootstrapInterface;
 use yii\base\InvalidConfigException;
 use yii\helpers\StringHelper;
 use yii\helpers\Json;
