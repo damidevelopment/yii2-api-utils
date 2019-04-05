@@ -10,42 +10,42 @@ class Device extends BaseObject
     /**
      * @var string
      */
-    protected $appName;
+    public $appName;
 
     /**
      * @var string
      */
-    protected $appVersion;
+    public $appVersion;
 
     /**
      * @var string
      */
-    protected $buildNumber;
+    public $buildNumber;
 
     /**
      * @var string
      */
-    protected $bundleId;
+    public $bundleId;
 
     /**
      * @var string
      */
-    protected $osName;
+    public $osName;
 
     /**
      * @var string
      */
-    protected $osVersion;
+    public $osVersion;
 
     /**
      * @var string
      */
-    protected $deviceName;
+    public $deviceName;
 
     /**
      * @var string
      */
-    protected $deviceId;
+    public $deviceId;
 
     /**
      * @var Request
@@ -73,23 +73,41 @@ class Device extends BaseObject
      */
     public function init()
     {
-        $pattern = "~^([\w\W\d ]+)/(v?[0-9.-_]+)/(\d+)/([\w.]+) ([\w]+)/(v?[0-9.-_]+) \(([\w]+);?([\w]+)?\)$~";
-        $userAgent = $this->request->getHeaders()->get('User-Agent');
+        $headers = $this->request->getHeaders();
 
-        list(
-            $this->appName,
-            $this->appVersion,
-            $this->buildNumber,
-            $this->bundleId,
-            $this->osName,
-            $this->osVersion,
-            $this->deviceName,
-            $this->deviceId
-        ) = preg_split($pattern, $userAgent, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);
+        $this->deviceId = $headers->get('X-Device-Id');
+
+        $userAgent = $headers->get('User-Agent');
+
+        // detect Dami mobile app
+        $pattern = '~^([\w\W\d ]+)/(v?[0-9.-_]+)/(\d+)/([\w.]+) ([\w]+)/(v?[0-9.-_]+) \(([\w]+\))$~';
+        if (preg_match($pattern, $userAgent)) {
+            list(
+                $this->appName,
+                $this->appVersion,
+                $this->buildNumber,
+                $this->bundleId,
+                $this->osName,
+                $this->osVersion,
+                $this->deviceName
+            ) = preg_split($pattern, $userAgent, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);
+        }
+        else {
+            // detect mobile device
+            if (preg_match('~Android|iPhone|iPad|iPod|webOS|BlackBerry|Windows Phone~', $userAgent, $matches)) {
+                $this->osName = $matches[0];
+                // TODO detect osVersion
+            }
+            // detect desktop device
+            elseif (preg_match('~Macintosh|Linux|Windows~', $userAgent, $matches)) {
+                $this->osName = $matches[0];
+                // TODO detect osVersion
+            }
+        }
     }
 
     /**
-     * Returns if device is Android
+     * Returns if device is Android mobile device
      * @return boolean
      */
     public function isAndroid(): bool
@@ -98,83 +116,20 @@ class Device extends BaseObject
     }
 
     /**
-     * Returns if device is iOS
+     * Returns if device is iOS mobile device
      * @return boolean
      */
     public function isIOS(): bool
     {
-        return $this->osName === 'iOS';
+        return in_array($this->osName, ['iOS', 'iPhone', 'iPad', 'iPod']);
     }
 
     /**
-     * Returns appName
-     * @return string
+     * Returns if device is Mobile
+     * @return boolean
      */
-    public function getAppName()
+    public function isMobile(): bool
     {
-        return $this->appName;
-    }
-
-    /**
-     * Returns appVersion
-     * @return string
-     */
-    public function getAppVersion()
-    {
-        return $this->appVersion;
-    }
-
-    /**
-     * Returns buildNumber
-     * @return string
-     */
-    public function getBuildNumber()
-    {
-        return $this->buildNumber;
-    }
-
-    /**
-     * Returns bundleId
-     * @return string
-     */
-    public function getBundleId()
-    {
-        return $this->bundleId;
-    }
-
-    /**
-     * Returns osName
-     * @return string
-     */
-    public function getOsName()
-    {
-        return $this->osName;
-    }
-
-    /**
-     * Returns osVersion
-     * @return string
-     */
-    public function getOsVersion()
-    {
-        return $this->osVersion;
-    }
-
-    /**
-     * Returns deviceName
-     * @return string
-     */
-    public function getDeviceName()
-    {
-        return $this->deviceName;
-    }
-
-    /**
-     * Returns deviceId
-     * @return string
-     */
-    public function getDeviceId()
-    {
-        return $this->deviceId;
+        return $this->isAndroid() || $this->isIOS() || in_array($this->osName, ['webOS', 'BlackBerry', 'Windows Phone']);
     }
 }
