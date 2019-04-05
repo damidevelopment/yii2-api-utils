@@ -1,7 +1,11 @@
 <?php
 
 return [
-    // ...
+    'components' => [
+        'device' => [
+            'class' => damidev\api\Device::class
+        ]
+    ],
     'modules' => [
         'api' => [
             'class' => damidev\api\ApiModule::class,
