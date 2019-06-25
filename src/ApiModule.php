@@ -1,6 +1,6 @@
 <?php
 
-namespace damidev\api;
+namespace damidevelopment\apiutils;
 
 use Yii;
 use yii\base\Application;

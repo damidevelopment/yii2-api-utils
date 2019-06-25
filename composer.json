@@ -1,21 +1,30 @@
 {
-    "name": "dami-libraries/yii2-api-module",
-    "description": "API Module for Yii2 framework.",
-    "type": "library",
+    "name": "damidevelopment/yii2-api-utils",
+    "description": "API utils for Yii2 framework.",
+    "type": "yii2-extension",
     "license": "MIT",
+    "support": {
+        "issues": "https://github.com/damidevelopment/yii2-api-utils/issues",
+        "source": "https://github.com/damidevelopment/yii2-api-utils"
+    },
     "authors": [
         {
             "name": "Jakub Hrášek",
             "email": "hrasek@damidev.com"
+        },
+        {
+            "name": "Martin Štěpánek",
+            "email": "stepanek@damidev.com"
         }
     ],
     "minimum-stability": "stable",
     "require": {
+        "yiisoft/yii2": "~2.0.0",
         "php": ">=7.2"
     },
     "autoload":{
         "psr-4":{
-            "damidev\\api\\": "src/"
+            "damidevelopment\\api\\": "src/"
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace damidev\api\actions;
+namespace damidevelopment\apiutils\actions;
 
 use yii\rest\Action;
 

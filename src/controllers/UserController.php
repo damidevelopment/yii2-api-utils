@@ -1,6 +1,6 @@
 <?php
 
-namespace damidev\api\controllers;
+namespace damidevelopment\apiutils\controllers;
 
 /**
  * @author Jakub Hrášek
