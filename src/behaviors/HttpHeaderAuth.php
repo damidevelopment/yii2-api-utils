@@ -16,17 +16,18 @@ class HttpHeaderAuth extends \yii\filters\auth\HttpHeaderAuth
      * @var string the HTTP header name
      */
     public $headerUserAgent = 'User-Agent';
-    public $headerAccessToken = 'Access-Token';
+    public $header = 'Access-Token';
 
     /**
      * {@inheritdoc}
      */
     public function authenticate($user, $request, $response)
     {
-        $authHeader = $request->getHeaders()->get($this->headerUserAgent);
-        $accessToken = $request->getHeaders()->get($this->headerAccessToken);
-        if ($accessToken !== null) {
-           // $identity = User::create(new UserAgent($authHeader), );
+        $userAgent = $request->getHeaders()->get($this->headerUserAgent);
+        $accessToken = $request->getHeaders()->get($this->header);
+        if ($userAgent) {
+            $identity = User::create(new UserAgent($userAgent));
+            $identity->accessToken = $accessToken;
             $user->login($identity);
             return $identity;
         }

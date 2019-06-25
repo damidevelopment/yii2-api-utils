@@ -12,7 +12,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     /**
      * @var string
      */
-    public $accessCode;
+    public $accessToken;
 
     /**
      * @var User
@@ -24,14 +24,13 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      * @param string $accessCode Access code
      * @return User
      */
-    public static function create(UserAgent $userAgent, ?string $accessCode): User
+    public static function create(UserAgent $userAgent): User
     {
         if (static::$user !== null) {
             return static::$user;
         }
         static::$user = new User([
             'userAgent' => $userAgent,
-            'accessCode' => $accessCode
         ]);
         return static::$user;
     }
