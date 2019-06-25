@@ -1,7 +1,8 @@
 {
     "name": "damidevelopment/yii2-api-utils",
-    "description": "API utils for Yii2 framework.",
     "type": "yii2-extension",
+    "description": "API utils for Yii2 framework",
+    "keywords": ["yii2", "api"],
     "license": "MIT",
     "support": {
         "issues": "https://github.com/damidevelopment/yii2-api-utils/issues",
@@ -24,7 +25,7 @@
     },
     "autoload":{
         "psr-4":{
-            "damidevelopment\\api\\": "src/"
+            "damidevelopment\\apiutils\\": "src/"
         }
     }
 }

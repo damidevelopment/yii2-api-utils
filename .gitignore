@@ -1,2 +1,51 @@
-.idea/
-composer.lock
+# phpstorm project files
+.idea
+
+# netbeans project files
+nbproject
+
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# windows thumbnail cache
+Thumbs.db
+
+# composer vendor dir
+/vendor
+
+# composer itself is not needed
+composer.phar
+
+# Mac DS_Store Files
+.DS_Store
+
+# phpunit itself is not needed
+phpunit.phar
+# local phpunit config
+/phpunit.xml
+
+tests/_output/*
+tests/_support/_generated
+
+# NodeJS
+node_modules
+
+#sublime project files
+*.sublime-*
+sftp-config.json
+
+# Uploads directories
+web/uploads/*
+
+# local config rewrites
+web_local.php
+db_local.php
+params_local.php
+
+# Docker files
+Dockerfile
+docker-compose.yml
+
+/web/report

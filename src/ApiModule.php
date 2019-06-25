@@ -7,9 +7,7 @@ use yii\web\Application;
 use yii\web\Response;
 use yii\base\InvalidConfigException;
 use yii\filters\ContentNegotiator;
-use yii\filters\RateLimiter;
-use damidev\api\Serializer;
-use damidev\api\behaviors\VerbFilter;
+
 
 /**
  * @author Jakub Hrášek
