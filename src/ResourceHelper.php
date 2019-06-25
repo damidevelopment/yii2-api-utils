@@ -16,7 +16,9 @@ class ResourceHelper
         foreach ($models as $model) {
             $resource = \Yii::createObject($resourceClass);
             if (!$resource instanceof Resource) {
-                throw new \InvalidArgumentException('Resource class must be instance of ' . Resource::class);
+                throw new \InvalidArgumentException(
+                    Yii::t('errors', 'Resource class must be type of {resource}'), ['resource' => Resource::class]
+                );
             }
 
             $resource->setModel($model);

@@ -23,7 +23,9 @@ class UpdateAction extends Action
         $post = Yii::$app->getRequest()->post();
         $resource = Yii::createObject($this->resourceClass);
         if (!$resource instanceof Resource) {
-            throw new \InvalidArgumentException('Resource class must be type of ' . Resource::class);
+            throw new \InvalidArgumentException(
+                Yii::t('errors', 'Resource class must be type of {resource}'), ['resource' => Resource::class]
+            );
         }
 
         $resource->loadResource($post);

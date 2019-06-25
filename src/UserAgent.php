@@ -102,7 +102,7 @@ class UserAgent extends BaseObject
             $this->deviceType = $matches[7];
             $this->uid = $matches[8];
         } catch (\Exception $e){
-            throw new BadRequestHttpException('Invalid UserAgent');
+            throw new BadRequestHttpException(\Yii::t('errors', 'Invalid UserAgent'));
         }
     }
 

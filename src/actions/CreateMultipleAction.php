@@ -33,14 +33,16 @@ class CreateMultipleAction extends Action
     public function run()
     {
         $post = Yii::$app->getRequest()->post($this->postVariable);
-        if(!$post){
-            throw new BadRequestHttpException('Items need to be sent in data attribute');
+        if (!$post) {
+            throw new BadRequestHttpException(Yii::t('errors', 'Items need to be sent in data attribute'));
         }
         $resources = [];
         foreach ($post as $row) {
             $resource = Yii::createObject($this->resourceClass);
             if (!$resource instanceof Resource) {
-                throw new \InvalidArgumentException('Resource class must be type of ' . Resource::class);
+                throw new \InvalidArgumentException(
+                    Yii::t('errors', 'Resource class must be type of {resource}'), ['resource' => Resource::class]
+                );
             }
 
             $resource->loadResource($row);
