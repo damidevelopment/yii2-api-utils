@@ -14,13 +14,22 @@ use yii\filters\VerbFilter;
 class RestController extends \yii\web\Controller
 {
 
+    /**
+     * @var array the configuration for creating authenticator
+     */
+    public $authenticator = [
+        'class' => \yii\filters\auth\HttpHeaderAuth::class,
+        'header' => 'Access-Token'
+    ];
+
     public function behaviors()
     {
         return [
             'verbFilter' => [
                 'class' => VerbFilter::class,
                 'actions' => $this->verbs(),
-            ]
+            ],
+            'authenticator' => $this->authenticator,
         ];
     }
 

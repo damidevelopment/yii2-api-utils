@@ -22,14 +22,6 @@ class ApiModule extends Module
     ];
 
     /**
-     * @var array the configuration for creating authenticator
-     */
-    public $authenticator = [
-        'class' => \yii\filters\auth\HttpHeaderAuth::class,
-        'header' => 'Access-Token'
-    ];
-
-    /**
      * @var string the class name of the [[identity]] object.
      */
     public $identityClass;
@@ -101,7 +93,6 @@ class ApiModule extends Module
                 ],
                 'languages' => $this->acceptLanguages,
             ],
-            'authenticator' => $this->authenticator,
         ];
     }
 
