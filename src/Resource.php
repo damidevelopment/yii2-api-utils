@@ -3,6 +3,7 @@
 namespace damidevelopment\apiutils;
 
 use yii\base\Model;
+use yii\db\ActiveRecord;
 use yii\db\ActiveRecordInterface;
 
 /**

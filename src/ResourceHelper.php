@@ -6,6 +6,7 @@
 
 namespace damidevelopment\apiutils;
 
+use Yii;
 
 class ResourceHelper
 {
@@ -14,7 +15,7 @@ class ResourceHelper
     {
         $resources = [];
         foreach ($models as $model) {
-            $resource = \Yii::createObject($resourceClass);
+            $resource = Yii::createObject($resourceClass);
             if (!$resource instanceof Resource) {
                 throw new \InvalidArgumentException(
                     Yii::t('errors', 'Resource class must be type of {resource}'), ['resource' => Resource::class]

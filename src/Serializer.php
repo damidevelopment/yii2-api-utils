@@ -32,9 +32,9 @@ class Serializer extends \yii\rest\Serializer
 
         return [
             'code' => 422,
-            'name' => 'Data Validation Failed',
-            'message' => 'Data Validation Failed',
-            'errors' => $result
+            'name' => \Yii::t('errors', 'Data Validation Failed'),
+            'message' => \Yii::t('errors', 'Data Validation Failed'),
+            'errors' => $result,
         ];
     }
 }
