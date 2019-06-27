@@ -26,6 +26,8 @@ class UserAgent extends BaseObject
     const OS_ANDROID = 0;
     const OS_IOS = 1;
 
+    public $userAgentHeader = 'User-Agent';
+
     /**
      * @var string
      */
@@ -66,12 +68,11 @@ class UserAgent extends BaseObject
      */
     private $_uid;
 
-    public function __construct(string $userAgent, array $config = [])
-    {
-        parent::__construct($config);
-        $this->configure($userAgent);
-    }
 
+    public function init()
+    {
+        $this->configure(\Yii::$app->request->headers->get($this->userAgentHeader));
+    }
 
     /**
      * Configures UserAgent object by string provided in header
