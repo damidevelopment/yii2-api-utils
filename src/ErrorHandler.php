@@ -90,8 +90,8 @@ class ErrorHandler extends \yii\web\ErrorHandler
             ]);
         } else {
             echo Json::encode([
-                'errorName' => 'Internal server error',
-                'message' => 'Internal server error',
+                'errorName' => Yii::t('errors','Internal server error'),
+                'message' => Yii::t('errors','Internal server error'),
                 'code' => 500,
                 'type' => 'Unknown'
             ]);
