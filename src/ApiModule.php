@@ -3,9 +3,9 @@
 namespace damidevelopment\apiutils;
 
 use Yii;
+use yii\base\Module;
 use yii\web\Application;
 use yii\web\Response;
-use yii\base\InvalidConfigException;
 use yii\filters\ContentNegotiator;
 
 
@@ -34,25 +34,15 @@ class ApiModule extends Module
      */
     public $identityClass;
 
-    /**
-     * Indicator if API module was already bootstraped
-     * @var boolean
-     */
-    private static $apiBootstrapped = false;
+    public $acceptLanguages = [];
 
+    public $errorHandler = ErrorHandler::class;
 
     /**
      * {@inheritdoc}
      */
     public function bootstrap($app)
     {
-        // allow only one instance of API module
-        if (self::$apiBootstrapped) {
-            throw new InvalidConfigException('This module must be bootstrapped only once, use damidev\api\Module instead.');
-        }
-
-        self::$apiBootstrapped = true;
-
         $app->on(Application::EVENT_BEFORE_REQUEST, function ($event) {
             /** @var Application $app */
             $app = $event->sender;
@@ -68,6 +58,8 @@ class ApiModule extends Module
             if (\yii\helpers\StringHelper::startsWith($route, $id) === false) {
                 return;
             }
+
+            $app->container->set('errorHandler', $this->errorHandler);
 
             // disable csrf cookie
             $request->enableCsrfCookie = false;
@@ -107,17 +99,9 @@ class ApiModule extends Module
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
                 ],
-                'languages' => $this->acceptLanguages()
-            ],
-            'verbFilter' => [
-                'class' => VerbFilter::class,
-                'controllerActions' => [$this, 'controllerVerbs'],
+                'languages' => $this->acceptLanguages,
             ],
             'authenticator' => $this->authenticator,
-            // TODO make it work
-            // 'rateLimiter' => [
-            //     'class' => RateLimiter::class,
-            // ]
         ];
     }
 
@@ -128,30 +112,6 @@ class ApiModule extends Module
     {
         $result = parent::afterAction($action, $result);
         return $this->serializeData($result);
-    }
-
-    /**
-     * Declares the allowed HTTP verbs.
-     * Please refer to [[VerbFilter::actions]] on how to declare the allowed verbs.
-     * @param  yii\base\Action $action
-     * @return array the allowed HTTP verbs.
-     */
-    protected function controllerVerbs($action)
-    {
-        if (method_exists($action->controller, 'verbs')) {
-            return $action->controller->verbs();
-        }
-        return [];
-    }
-
-    /**
-     * List of acceptable languages for response
-     * @return array
-     */
-    protected function acceptLanguages()
-    {
-        $params = Yii::$app->params['acceptLanguages'] ?? [Yii::$app->sourceLanguage];
-        return array_unique(array_merge(['en-US', 'cs-CZ'], $params));
     }
 
     /**
