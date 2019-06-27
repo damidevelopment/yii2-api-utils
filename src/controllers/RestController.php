@@ -2,13 +2,8 @@
 
 namespace damidevelopment\apiutils\controllers;
 
-use damidevelopment\apiutils\behaviors\HttpHeaderAuth;
-use damidevelopment\apiutils\Serializer;
-use yii\filters\ContentNegotiator;
-use yii\filters\RateLimiter;
+use damidevelopment\apiutils\actions\ErrorAction;
 use yii\filters\VerbFilter;
-use yii\web\Response;
-use Yii;
 
 
 /**
@@ -26,6 +21,13 @@ class RestController extends \yii\web\Controller
                 'class' => VerbFilter::class,
                 'actions' => $this->verbs(),
             ]
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            'error' => ErrorAction::class,
         ];
     }
 
