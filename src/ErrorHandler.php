@@ -8,7 +8,9 @@ use Yii;
 use yii\base\Exception;
 use yii\base\UserException;
 use yii\db\Exception as DbException;
+use yii\helpers\Json;
 use yii\web\HttpException;
+use yii\web\Response;
 
 
 /**
@@ -70,6 +72,35 @@ class ErrorHandler extends \yii\web\ErrorHandler
         }
 
         return $array;
+    }
+
+    protected function handleFallbackExceptionMessage($exception, $previousException)
+    {
+        if (Yii::$app->getResponse()->format !== Response::FORMAT_JSON) {
+            parent::handleFallbackExceptionMessage($exception, $previousException);
+        }
+
+        $msg = 'An Error occurred while handling another error: ' . Yii::t('errors', $exception->getMessage()) . (string)$previousException;
+        if (YII_DEBUG) {
+            echo Json::encode([
+                'errorName' => Yii::t('errors', ($exception instanceof Exception) ? $exception->getName() : 'Exception'),
+                'message' => $msg,
+                'code' => 500,
+                'type' => 'Unknown'
+            ]);
+        } else {
+            echo Json::encode([
+                'errorName' => 'Internal server error',
+                'message' => 'Internal server error',
+                'code' => 500,
+                'type' => 'Unknown'
+            ]);
+        }
+        if (defined('HHVM_VERSION')) {
+            flush();
+        }
+        error_log($msg);
+        exit(1);
     }
 
 }
