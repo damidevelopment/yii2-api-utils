@@ -38,7 +38,7 @@ composer require dami-libraries/yii2-api-module
 
 ## Authentication
 
-As default every request for logged user must contain `Access-Token` header. You can configure this behavior thru `damidev\api\controllers\RestController::$authenticator` property.
+As default every request for logged user must contain `Access-Token` header. You can configure this behavior thru `damidevelopment\apiutils\controllers\RestController::$authenticator` property.
 
 ## Multilangual API output
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace damidev\api;
+namespace damidevelopment\apiutils;
 
 use Yii;
-use yii\base\Application;
-use yii\base\InvalidConfigException;
-use yii\helpers\StringHelper;
-use yii\helpers\Json;
+use yii\base\Module;
+use yii\web\Application;
 use yii\web\Response;
+use yii\filters\ContentNegotiator;
+
 
 /**
  * @author Jakub Hrášek
@@ -15,29 +15,34 @@ use yii\web\Response;
 class ApiModule extends Module
 {
     /**
+     * @var array the configuration for creating the serializer that formats the response data.
+     */
+    public $serializer = [
+        'class' => Serializer::class
+    ];
+
+    /**
+     * @var array the configuration for creating authenticator
+     */
+    public $authenticator = [
+        'class' => \yii\filters\auth\HttpHeaderAuth::class,
+        'header' => 'Access-Token'
+    ];
+
+    /**
      * @var string the class name of the [[identity]] object.
      */
     public $identityClass;
 
-    /**
-     * Indicator if API module was already bootstraped
-     * @var boolean
-     */
-    private static $apiBootstrapped = false;
+    public $acceptLanguages = [];
 
+    public $errorHandler = ErrorHandler::class;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function bootstrap($app)
     {
-        // allow only one instance of API module
-        if (self::$apiBootstrapped) {
-            throw new InvalidConfigException('This module must be bootstrapped only once.');
-        }
-
-        self::$apiBootstrapped = true;
-
         $app->on(Application::EVENT_BEFORE_REQUEST, function ($event) {
             /** @var Application $app */
             $app = $event->sender;
@@ -50,9 +55,11 @@ class ApiModule extends Module
             $id = $this->getUniqueId();
 
             // change app behavior only for requests to this module
-            if (StringHelper::startsWith($route, $id) === false) {
+            if (\yii\helpers\StringHelper::startsWith($route, $id) === false) {
                 return;
             }
+
+            $app->container->set('errorHandler', $this->errorHandler);
 
             // disable csrf cookie
             $request->enableCsrfCookie = false;
@@ -77,5 +84,45 @@ class ApiModule extends Module
         });
 
         parent::bootstrap($app);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            'contentNegotiator' => [
+                'class' => ContentNegotiator::class,
+                'formatParam' => null,
+                'languageParam' => null,
+                'formats' => [
+                    'application/json' => Response::FORMAT_JSON,
+                ],
+                'languages' => $this->acceptLanguages,
+            ],
+            'authenticator' => $this->authenticator,
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function afterAction($action, $result)
+    {
+        $result = parent::afterAction($action, $result);
+        return $this->serializeData($result);
+    }
+
+    /**
+     * Serializes the specified data.
+     * The default implementation will create a serializer based on the configuration given by [[serializer]].
+     * It then uses the serializer to serialize the given data.
+     * @param mixed $data the data to be serialized
+     * @return mixed the serialized data.
+     */
+    protected function serializeData($data)
+    {
+        return Yii::createObject($this->serializer)->serialize($data);
     }
 }
