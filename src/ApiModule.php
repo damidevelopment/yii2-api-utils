@@ -94,9 +94,6 @@ class ApiModule extends Module implements BootstrapInterface
                 'class' => ContentNegotiator::class,
                 'formatParam' => null,
                 'languageParam' => null,
-                'formats' => [
-                    'application/json' => Response::FORMAT_JSON,
-                ],
                 'languages' => $this->acceptLanguages,
             ],
         ];

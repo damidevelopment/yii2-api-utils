@@ -3,7 +3,9 @@
 namespace damidevelopment\apiutils\controllers;
 
 use damidevelopment\apiutils\actions\ErrorAction;
+use yii\filters\ContentNegotiator;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 
 /**
@@ -20,6 +22,12 @@ class RestController extends \yii\web\Controller
             'verbFilter' => [
                 'class' => VerbFilter::class,
                 'actions' => $this->verbs(),
+            ],
+            'contentNegotiator' => [
+                'class' => ContentNegotiator::class,
+                'formats' => [
+                    'application/json' => Response::FORMAT_JSON,
+                ],
             ],
         ];
     }
