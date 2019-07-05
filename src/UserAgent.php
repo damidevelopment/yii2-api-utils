@@ -88,7 +88,7 @@ class UserAgent extends BaseObject
     private function configure(string $userAgent): void
     {
         try {
-            $pattern = '#([a-zA-Z0-9 ]+)\/([a-zA-Z0-9. ]+)\/([a-zA-Z0-9 ]+)\/([a-zA-Z0-9 .]+) ([a-zA-Z0-9 ]+)\/([a-zA-Z0-9 .]+)\(([a-zA-Z0-9 _.]+);([a-zA-Z0-9 -]+)\)#';
+            $pattern = '#([a-zA-Z0-9 ]+)\/([a-zA-Z0-9. ]+)\/([a-zA-Z0-9 ]+)\/([a-zA-Z0-9 .]+) ([a-zA-Z0-9 ]+)\/([a-zA-Z0-9 .]+)\(([a-zA-Z0-9 _.-]+);([a-zA-Z0-9 -]+)\)#';
             preg_match($pattern, $userAgent, $matches);
 
             $this->_appName = $matches[1];
