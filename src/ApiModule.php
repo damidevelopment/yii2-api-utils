@@ -3,6 +3,7 @@
 namespace damidevelopment\apiutils;
 
 use Yii;
+use yii\base\BootstrapInterface;
 use yii\base\Module;
 use yii\web\Application;
 use yii\web\Response;
@@ -12,7 +13,7 @@ use yii\filters\ContentNegotiator;
 /**
  * @author Jakub Hrášek
  */
-class ApiModule extends Module
+class ApiModule extends Module implements BootstrapInterface
 {
     /**
      * @var array the configuration for creating the serializer that formats the response data.
@@ -51,8 +52,7 @@ class ApiModule extends Module
                 return;
             }
 
-            $app->container->set('errorHandler', $this->errorHandler);
-
+            $app->set('errorHandler', $this->errorHandler);
             // disable csrf cookie
             $request->enableCsrfCookie = false;
 
@@ -74,6 +74,12 @@ class ApiModule extends Module
                 Yii::getLogger()->log($data, \yii\log\Logger::LEVEL_TRACE, 'API response payload');
             });
         });
+
+        foreach ($this->getModules() as $name => $module) {
+            if(in_array(BootstrapInterface::class, class_implements($module))){
+                $this->getModule($name)->bootstrap($app);
+            }
+        }
 
         parent::bootstrap($app);
     }
