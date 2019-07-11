@@ -52,7 +52,10 @@ class ApiModule extends Module implements BootstrapInterface
                 return;
             }
 
-            $app->set('errorHandler', $this->errorHandler);
+            $errorHandler = Yii::createObject($this->errorHandler);
+            $app->set('errorHandler', $errorHandler);
+            $errorHandler->register();
+
             // disable csrf cookie
             $request->enableCsrfCookie = false;
 
