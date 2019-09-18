@@ -60,3 +60,7 @@ See [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) to find l
 If no `Accept-Language` header is found or language is not supported, first language in acceptLanguages array will be used as default. If no acceptLanguages is defined, is used base app language.
 
 TODO make generating of language list in `acceptLanguages` param automatic, not user defined.
+
+## Multiple requests with same ID
+
+When you need better quality API you can send multiple requests to the same endpoint. You just need to send `X-Request-Id` header and all requests with the same request ID within 30 sec will return the same result as if you send one request.
