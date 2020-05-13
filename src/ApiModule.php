@@ -79,6 +79,8 @@ class ApiModule extends Module implements BootstrapInterface
         });
 
         foreach ($this->getModules() as $name => $module) {
+            $module = is_array($module) ? $module['class'] : $module;
+
             if(in_array(BootstrapInterface::class, class_implements($module))){
                 $this->getModule($name)->bootstrap($app);
             }
